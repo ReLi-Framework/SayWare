@@ -1,0 +1,19 @@
+---
+# SPDX-FileCopyrightText: 2026 The SayWare development team
+#
+# SPDX-License-Identifier: CC0-1.0
+name: Audit the project
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  cargo-deny:
+    name: Audit with cargo-deny
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Audit dependencies
+        uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          command: check advisories
