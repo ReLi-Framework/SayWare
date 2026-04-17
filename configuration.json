@@ -11,6 +11,6 @@
   "behavior": {
     "displayMode": "stylized",
     "font": "tiny",
-    "scheduleLaunch": false
+    "launchType": "immediate"
   }
 }
