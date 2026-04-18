@@ -4,7 +4,7 @@
 
 use crate::server::Tls;
 use color_eyre::eyre::{Result, WrapErr};
-use std::{fs, path::Path, result::Result as StdResult};
+use std::{fs, path::Path, result};
 
 pub struct Configuration {
     pub port: u16,
@@ -111,7 +111,7 @@ impl Configuration {
         })
     }
 
-    fn ensure_file_exists(value: &String) -> StdResult<(), &'static str> {
+    fn ensure_file_exists(value: &String) -> result::Result<(), &'static str> {
         if Path::new(value).is_file() {
             Ok(())
         } else {
