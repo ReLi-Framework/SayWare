@@ -6,7 +6,7 @@ mod api;
 mod configuration;
 mod server;
 
-use crate::configuration::Configuration;
+use crate::{configuration::Configuration, server::Server};
 use color_eyre::eyre::{Report, Result};
 use std::io;
 
@@ -18,25 +18,18 @@ async fn main() -> Result<()> {
 
     cliclack::intro("SayWare Server")?;
 
-    let configuration = match Configuration::prompt() {
+    let configuration = match Configuration::from_prompts() {
         Ok(configuration) => configuration,
         Err(error) if is_interrupted(&error) => return Ok(()),
         Err(error) => return Err(error),
     };
-
-    let Configuration {
-        port,
-        endpoint,
-        sentence,
-        tls,
-    } = configuration;
 
     tracing_subscriber::fmt()
         .with_target(false)
         .compact()
         .init();
 
-    Ok(())
+    Server::run(configuration).await
 }
 
 fn is_interrupted(error: &Report) -> bool {

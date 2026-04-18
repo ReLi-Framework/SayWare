@@ -14,7 +14,7 @@ pub struct Configuration {
 }
 
 impl Configuration {
-    pub fn prompt() -> Result<Self> {
+    pub fn from_prompts() -> Result<Self> {
         let port = Self::prompt_port()?;
         let endpoint = Self::prompt_endpoint()?;
         let sentence = Self::prompt_sentence()?;
