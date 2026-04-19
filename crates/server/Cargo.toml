@@ -3,19 +3,19 @@
 # SPDX-License-Identifier: CC0-1.0
 
 [package]
-name = "sayware-server"
+name = "server"
 version = "0.1.0"
 edition = "2024"
 license = "GPL-3.0-or-later"
 
-[[bin]]
-name = "sayware-server"
-path = "./src/main.rs"
-
 [dependencies]
 poem = { version = "=3.1.12", features = ["rustls"] }
 poem-openapi = { version = "=5.1.16" }
-tokio = { version = "=1.52.1", features = ["rt-multi-thread", "macros", "signal"] }
+tokio = { version = "=1.52.1", features = [
+  "rt-multi-thread",
+  "macros",
+  "signal",
+] }
 cliclack = { version = "=0.5.4" }
 ctrlc = { version = "=3.5.2" }
 color-eyre = { version = "=0.6.5" }

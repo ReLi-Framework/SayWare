@@ -975,6 +975,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5e5032e24019045c762d3c0f28f5b6b8bbf38563a65908389bf7978758920897"
 
 [[package]]
+name = "malware"
+version = "0.1.0"
+dependencies = [
+ "cfonts",
+ "quote2",
+ "rand 0.10.1",
+ "serde",
+ "serde_json",
+ "time",
+ "url",
+ "windows",
+]
+
+[[package]]
 name = "memchr"
 version = "2.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1538,34 +1552,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9774ba4a74de5f7b1c1451ed6cd5285a32eddb5cccb8cc655a4e50009e06477f"
 
 [[package]]
-name = "sayware"
-version = "0.1.0"
-dependencies = [
- "cfonts",
- "quote2",
- "rand 0.10.1",
- "serde",
- "serde_json",
- "time",
- "url",
- "windows",
-]
-
-[[package]]
-name = "sayware-server"
-version = "0.1.0"
-dependencies = [
- "cliclack",
- "color-eyre",
- "ctrlc",
- "poem",
- "poem-openapi",
- "tokio",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "scopeguard"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1643,6 +1629,20 @@ dependencies = [
  "ryu",
  "serde",
  "unsafe-libyaml",
+]
+
+[[package]]
+name = "server"
+version = "0.1.0"
+dependencies = [
+ "cliclack",
+ "color-eyre",
+ "ctrlc",
+ "poem",
+ "poem-openapi",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -2043,9 +2043,9 @@ dependencies = [
 
 [[package]]
 name = "typenum"
-version = "1.19.0"
+version = "1.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "562d481066bde0658276a35467c4af00bdc6ee726305698a55b86e61d7ad82bb"
+checksum = "40ce102ab67701b8526c123c1bab5cbe42d7040ccfd0f64af1a385808d2f43de"
 
 [[package]]
 name = "uncased"
