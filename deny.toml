@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: 2026 The SayWare development team
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[graph]
+targets = ["x86_64-pc-windows-msvc", "x86_64-unknown-linux-gnu"]
+all-features = true
+
+[advisories]
+yanked = "deny"
+unmaintained = "workspace"
+unsound = "workspace"
+unused-ignored-advisory = "deny"
+ignore = []
+
+[licenses]
+confidence-threshold = 0.95
+include-dev = false
+include-build = true
+unused-allowed-license = "deny"
+unused-license-exception = "deny"
+allow = [
+  "Apache-2.0",
+  "BSD-3-Clause",
+  "ISC",
+  "GPL-3.0-or-later",
+  "MIT",
+  "Unicode-3.0",
+]
+
+[licenses.private]
+ignore = true
+
+[bans]
+multiple-versions = "warn"
+multiple-versions-include-dev = true
+wildcards = "deny"
+highlight = "simplest-path"
+external-default-features = "allow"
+workspace-default-features = "warn"
+
+[bans.workspace-dependencies]
+duplicates = "deny"
+unused = "deny"
+include-path-dependencies = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+required-git-spec = "tag"
+unused-allowed-source = "deny"
