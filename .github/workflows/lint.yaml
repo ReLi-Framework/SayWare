@@ -24,6 +24,19 @@ jobs:
           enable-cache: true
       - name: Lint YAML code
         run: uvx yamllint -s .
+  svglint:
+    name: Lint with svglint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: '10'
+          standalone: true
+      - name: Lint SVG code
+        run: git ls-files -z -- '*.svg' | xargs -0 pnpx svglint --ci
   reuse:
     name: Lint with REUSE
     runs-on: ubuntu-latest
