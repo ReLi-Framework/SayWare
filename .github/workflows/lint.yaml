@@ -52,7 +52,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Lint Markdown code
-        uses: DavidAnson/markdownlint-cli2-action@v23
+        uses: DavidAnson/markdownlint-cli2-action@v24
   clippy:
     name: Lint with Clippy
     runs-on: windows-latest
