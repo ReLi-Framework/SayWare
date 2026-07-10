@@ -16,7 +16,7 @@ tokio = { version = "=1.52.3", features = [
   "macros",
   "signal",
 ] }
-cliclack = { version = "=0.5.4" }
+cliclack = { version = "=0.5.5" }
 ctrlc = { version = "=3.5.2" }
 color-eyre = { version = "=0.6.5" }
 tracing = { version = "=0.1.44" }
