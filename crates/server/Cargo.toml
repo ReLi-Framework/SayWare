@@ -11,7 +11,7 @@ license = "GPL-3.0-or-later"
 [dependencies]
 poem = { version = "=3.1.12", features = ["rustls"] }
 poem-openapi = { version = "=5.1.16" }
-tokio = { version = "=1.52.3", features = [
+tokio = { version = "=1.53.0", features = [
   "rt-multi-thread",
   "macros",
   "signal",
