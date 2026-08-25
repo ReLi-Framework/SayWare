@@ -134,7 +134,7 @@ If you want, you can help me with any kind of work, for example:
 
 Distributed under the [GPL 3.0 or later] license.
 
-[build configuration file]: ./configuration.json
+[build configuration file]: ./.reli/build/configuration.json
 [build workflow]: ./.forgejo/workflows/reli.yaml
 [cargo]: https://doc.rust-lang.org/stable/cargo/
 [gpl 3.0 or later]: ./LICENSES/GPL-3.0-or-later.txt

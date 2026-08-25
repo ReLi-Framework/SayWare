@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 The SayWare development team
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[framework]
+version = ">=0.0.0 <1.0.0"
+
+[project]
+name = "SayWare"
+description = "A simple and harmless malware that says something"
+version = "0.1.0"

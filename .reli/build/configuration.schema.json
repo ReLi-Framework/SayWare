@@ -1,0 +1,111 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "ReLi build configuration for SayWare",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["server", "behavior"],
+	"properties": {
+		"server": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": [
+				"hostname",
+				"port",
+				"endpoint",
+				"httpsOnly",
+				"fallbackSentence",
+				"requestTimeoutSeconds",
+				"requestMaximumRetries"
+			],
+			"properties": {
+				"hostname": {
+					"description": "Sentence server hostname.",
+					"type": "string",
+					"format": "hostname"
+				},
+				"port": {
+					"type": "integer",
+					"minimum": 0,
+					"maximum": 65535
+				},
+				"endpoint": {
+					"description": "Single URL segment served by the Sentence server.",
+					"type": "string",
+					"minLength": 1,
+					"pattern": "^[^/?#:]*$"
+				},
+				"httpsOnly": {
+					"type": "boolean"
+				},
+				"fallbackSentence": {
+					"type": "string"
+				},
+				"requestTimeoutSeconds": {
+					"type": "integer",
+					"minimum": 0,
+					"maximum": 255
+				},
+				"requestMaximumRetries": {
+					"type": "integer",
+					"minimum": 0,
+					"maximum": 255
+				}
+			}
+		},
+		"behavior": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["displayMode", "launchType"],
+			"properties": {
+				"displayMode": {
+					"enum": ["plain", "stylized"]
+				},
+				"font": {
+					"enum": ["block", "simple", "simple3d", "chrome", "tiny"]
+				},
+				"launchType": {
+					"enum": ["immediate", "scheduled"]
+				},
+				"date": {
+					"description": "Launch date, required when launchType is scheduled.",
+					"type": "string",
+					"format": "date"
+				}
+			},
+			"allOf": [
+				{
+					"if": {
+						"required": ["displayMode"],
+						"properties": {
+							"displayMode": { "const": "stylized" }
+						}
+					},
+					"then": {
+						"required": ["font"],
+						"properties": {
+							"font": {
+								"$ref": "#/properties/behavior/properties/font"
+							}
+						}
+					}
+				},
+				{
+					"if": {
+						"required": ["launchType"],
+						"properties": {
+							"launchType": { "const": "scheduled" }
+						}
+					},
+					"then": {
+						"required": ["date"],
+						"properties": {
+							"date": {
+								"$ref": "#/properties/behavior/properties/date"
+							}
+						}
+					}
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,70 @@
+---
+# SPDX-FileCopyrightText: 2026 The SayWare development team
+#
+# SPDX-License-Identifier: CC0-1.0
+name: Build the malware
+on:
+  workflow_dispatch: {}
+jobs:
+  malware:
+    name: Build the malware
+    runs-on: ubuntu-latest
+    env:
+      WORKSPACE: ${{ forge.workspace }}
+      CARGO_TERM_COLOR: always
+    steps:
+      - name: Checkout code
+        uses: https://data.forgejo.org/actions/checkout@v6
+      - name: Install build dependencies
+        run: >-
+          apt-get update &&
+          apt-get install -y cmake ninja-build clang-20 lld-20 llvm-20
+      - name: Create needed symlinks
+        run: >
+          ln -sf "$(which llvm-rc-20)" /usr/local/bin/rc &&
+          ln -sf "$(which llvm-mt-20)" /usr/local/bin/mt
+      - name: Install Rust toolchain
+        uses: https://github.com/dtolnay/rust-toolchain@nightly
+        with:
+          targets: x86_64-pc-windows-msvc
+          components: rust-src
+      - name: Add Rust caching
+        uses: https://github.com/Swatinem/rust-cache@v2
+      - name: Install xwin
+        run: cargo install --locked xwin
+      - name: Add xwin caching
+        id: cache-xwin
+        uses: https://data.forgejo.org/actions/cache@v4
+        with:
+          path: ./.xwin/
+          key: xwin-${{ runner.os }}
+      - name: Install Microsoft CRT/SDK headers and libraries
+        if: steps.cache-xwin.outputs.cache-hit != 'true'
+        run: xwin --accept-license splat --include-debug-libs --output ./.xwin/
+      - name: Build Rust code
+        env:
+          CMAKE_GENERATOR: Ninja
+          CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_LINKER: lld-link-20
+          CC_x86_64_pc_windows_msvc: clang-cl-20
+          AR_x86_64_pc_windows_msvc: llvm-lib-20
+          LIB: ${{ env.WORKSPACE }}/.xwin/crt/lib/x86_64;${{ env.WORKSPACE }}/.xwin/sdk/lib/um/x86_64;${{
+            env.WORKSPACE }}/.xwin/sdk/lib/ucrt/x86_64
+          CFLAGS_x86_64_pc_windows_msvc: >
+            /imsvc ${{ env.WORKSPACE }}/.xwin/crt/include
+            /imsvc ${{ env.WORKSPACE }}/.xwin/sdk/include/ucrt
+            /imsvc ${{ env.WORKSPACE }}/.xwin/sdk/include/um
+            /imsvc ${{ env.WORKSPACE }}/.xwin/sdk/include/shared
+          RUSTFLAGS: >
+            -Lnative=${{ env.WORKSPACE }}/.xwin/crt/lib/x86_64
+            -Lnative=${{ env.WORKSPACE }}/.xwin/sdk/lib/um/x86_64
+            -Lnative=${{ env.WORKSPACE }}/.xwin/sdk/lib/ucrt/x86_64
+        run: |-
+          cargo build --target x86_64-pc-windows-msvc \
+            --bin sayware --profile small-size \
+            -Z build-std=core,std,panic_abort \
+            -Z build-std-features="optimize_for_size"
+      - name: Upload the malware
+        uses: https://data.forgejo.org/forgejo/upload-artifact@v5
+        with:
+          name: reli
+          path: target/x86_64-pc-windows-msvc/small-size/sayware.exe
